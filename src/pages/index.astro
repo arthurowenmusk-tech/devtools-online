@@ -1,11 +1,96 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const tools = [
+  {
+    icon: '🛠️',
+    name: 'JSON Tools',
+    href: '/json-tools',
+    desc: 'Format, validate, minify, and convert JSON ↔ CSV. All JSON utilities in one place.',
+    tag: 'Data',
+  },
+  {
+    icon: '🔍',
+    name: 'Diff Checker',
+    href: '/diff-checker',
+    desc: 'Compare two texts side by side. Highlight differences line by line.',
+    tag: 'Compare',
+  },
+  {
+    icon: '🔜',
+    name: 'Base64 Encoder/Decoder',
+    href: '#',
+    desc: 'Encode text to Base64 or decode Base64 to readable text. Coming soon.',
+    tag: 'Encode',
+  },
+  {
+    icon: '🔜',
+    name: 'URL Encoder/Decoder',
+    href: '#',
+    desc: 'Encode URLs for safe sharing or decode them back. Coming soon.',
+    tag: 'Encode',
+  },
+  {
+    icon: '🔜',
+    name: 'UUID Generator',
+    href: '#',
+    desc: 'Generate random UUIDs (v1, v4). Bulk generation supported. Coming soon.',
+    tag: 'Generate',
+  },
+  {
+    icon: '🔜',
+    name: 'Regex Tester',
+    href: '#',
+    desc: 'Test regular expressions in real-time with highlighting and match groups. Coming soon.',
+    tag: 'Debug',
+  },
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Free Online Developer Tools"
+  description="Free online developer tools — JSON converter, diff checker, Base64 encoder, and more. No sign-up, no ads clutter. Just tools that work."
+>
+  <div class="hero">
+    <h1>🛠️ Free Online Developer Tools</h1>
+    <p>
+      Simple, fast, private. Every tool runs in your browser — your data never leaves your device.
+      No sign-up, no clutter. Just tools that work.
+    </p>
+  </div>
+
+  <div class="callout">
+    <strong>🔒 Privacy First</strong> — All processing happens locally in your browser.
+    Your data is never uploaded to any server. <em>Check the Network tab if you don't believe us.</em>
+  </div>
+
+  <h2>🧰 Tools</h2>
+  <div class="tool-grid">
+    {tools.map(tool => (
+      <div class="tool-card">
+        <div class="icon">{tool.icon}</div>
+        {tool.href !== '#' ? (
+          <h3><a href={tool.href}>{tool.name}</a></h3>
+        ) : (
+          <h3>{tool.name}</h3>
+        )}
+        <p>{tool.desc}</p>
+        <span class="tag">{tool.tag}</span>
+      </div>
+    ))}
+  </div>
+
+  <hr />
+
+  <h2>🚀 Why DevTools Online?</h2>
+  <ul>
+    <li>✅ <strong>100% Client-Side</strong> — Everything runs in your browser. No server, no uploads.</li>
+    <li>✅ <strong>No Sign-Up</strong> — Just open the tool and use it. No accounts, no emails.</li>
+    <li>✅ <strong>Ad-Light</strong> — We keep it clean. No pop-ups, no trackers, no auto-play videos.</li>
+    <li>✅ <strong>Fast & Lightweight</strong> — No bloated frameworks. Pages load in under 1 second.</li>
+  </ul>
+
+  <h2>📝 Latest from the Blog</h2>
+  <p><em>Blog coming soon — tutorials, comparisons, and behind-the-scenes of building DevTools.</em></p>
+
 </Layout>
