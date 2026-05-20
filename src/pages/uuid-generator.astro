@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import UuidGenerator from '../components/UuidGenerator.vue';
+---
+<Layout title="UUID Generator — Generate UUID v4 Online" description="Generate random UUIDs (v4) online. Bulk generation, uppercase option. 100% client-side." wide>
+<h1>🎲 UUID Generator</h1>
+<p>Generate random UUIDs. One click, or batch generate 10 at once.</p>
+<UuidGenerator client:load />
+<h2>💡 Use Cases</h2>
+<ul><li>Database primary keys</li><li>Unique request IDs for APIs</li><li>File naming, session tokens</li></ul>
+</Layout>

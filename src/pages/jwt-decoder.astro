@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import JwtDecoder from '../components/JwtDecoder.vue';
+---
+<Layout title="JWT Decoder — Decode JSON Web Tokens" description="Decode and inspect JWT tokens. View header, payload, and check expiration. 100% client-side." wide>
+<h1>🔐 JWT Decoder</h1>
+<p>Paste a JWT token to decode and inspect its header and payload. Check expiration at a glance.</p>
+<JwtDecoder client:load />
+</Layout>

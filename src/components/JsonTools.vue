@@ -158,6 +158,42 @@
         </div>
       </div>
     </div>
+
+    <!-- YAML -->
+    <div v-if="activeTab === 'yaml'" class="tool-layout">
+      <div class="tabs sub-tabs">
+        <button :class="{ active: yamlMode === 'json2yaml' }" @click="yamlMode='json2yaml'">JSON → YAML</button>
+        <button :class="{ active: yamlMode === 'yaml2json' }" @click="yamlMode='yaml2json'">YAML → JSON</button>
+      </div>
+      <div class="editor-area two-col">
+        <div class="panel">
+          <div class="panel-header"><label>Input</label><button class="btn-small" @click="clearIO">Clear</button></div>
+          <textarea v-model="input" :placeholder="yamlMode==='json2yaml'?'Paste JSON...':'Paste YAML...'" spellcheck="false"></textarea>
+        </div>
+        <div class="actions-col"><button class="btn-primary" @click="convertYaml" :disabled="!input.trim()">Convert →</button></div>
+        <div class="panel">
+          <div class="panel-header"><label>Output</label><div class="panel-actions"><button class="btn-small" @click="copyOutput" :disabled="!output">Copy</button></div></div>
+          <textarea v-model="output" readonly placeholder="Converted..." spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div v-if="error" class="error">{{ error }}</div>
+    </div>
+
+    <!-- TypeScript -->
+    <div v-if="activeTab === 'ts'" class="tool-layout">
+      <div class="editor-area two-col">
+        <div class="panel">
+          <div class="panel-header"><label>JSON Input</label><button class="btn-small" @click="clearIO">Clear</button></div>
+          <textarea v-model="input" placeholder="Paste a JSON object to generate TypeScript types..." spellcheck="false"></textarea>
+        </div>
+        <div class="actions-col"><button class="btn-primary" @click="convertTs" :disabled="!input.trim()">Generate →</button></div>
+        <div class="panel">
+          <div class="panel-header"><label>TypeScript Types</label><button class="btn-small" @click="copyOutput" :disabled="!output">Copy</button></div>
+          <textarea v-model="output" readonly placeholder="TypeScript interface..." spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div v-if="error" class="error">{{ error }}</div>
+    </div>
   </div>
 </template>
 
@@ -169,6 +205,8 @@ const tabs = [
   { id: 'validate', label: 'Validator', emoji: '✅' },
   { id: 'minify',   label: 'Minifier',  emoji: '📦' },
   { id: 'convert',  label: 'JSON ↔ CSV', emoji: '🔄' },
+  { id: 'yaml',     label: 'JSON ↔ YAML', emoji: '📋' },
+  { id: 'ts',       label: '→ TypeScript', emoji: '🔷' },
 ];
 const activeTab = ref('format');
 
@@ -188,6 +226,7 @@ const stats = ref(null);
 const convMode = ref('json2csv');
 const csvTable = ref([]);
 const csvCols = ref([]);
+const yamlMode = ref('json2yaml');
 
 function clearIO() {
   input.value = '';
@@ -353,6 +392,141 @@ function convertJsonCsv() {
   } catch (e) {
     error.value = e.message;
   }
+}
+
+// --- YAML ---
+function jsonToYaml(obj, indent = 0) {
+  const pad = '  '.repeat(indent);
+  if (obj === null || obj === undefined) return 'null';
+  if (typeof obj !== 'object' || Array.isArray(obj)) {
+    if (Array.isArray(obj)) {
+      if (obj.length === 0) return '[]';
+      return obj.map(v => {
+        const s = jsonToYaml(v, indent + 1).trimStart();
+        return `${pad}- ${s}`;
+      }).join('\n');
+    }
+    const s = String(obj);
+    return s.includes(':') || s.includes('#') || s.includes('\n') || s.startsWith(' ') || s.endsWith(' ') || s === '' ? `"${s}"` : s;
+  }
+  const keys = Object.keys(obj);
+  if (keys.length === 0) return '{}';
+  return keys.map(k => {
+    const v = obj[k];
+    if (v !== null && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length > 0) {
+      return `${pad}${k}:\n${jsonToYaml(v, indent + 1)}`;
+    }
+    if (Array.isArray(v) && v.length > 0 && typeof v[0] === 'object') {
+      return `${pad}${k}:\n${v.map(item => { const s = jsonToYaml(item, indent + 1).trimStart(); return `${pad}  - ${s}`; }).join('\n')}`;
+    }
+    return `${pad}${k}: ${jsonToYaml(v, indent)}`;
+  }).join('\n');
+}
+
+function yamlToJson(yamlStr) {
+  // Simple YAML parser for common cases
+  const lines = yamlStr.split('\n');
+  const result = {};
+  const stack = [{ obj: result, indent: -1 }];
+  for (const line of lines) {
+    const trimmed = line.trimEnd();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const indent = line.length - line.trimStart().length;
+    const isListItem = trimmed.startsWith('- ');
+    const content = isListItem ? trimmed.slice(2) : trimmed;
+    
+    while (stack.length > 1 && indent <= stack[stack.length-1].indent) stack.pop();
+    
+    if (isListItem) {
+      const arr = [];
+      stack[stack.length-1].obj[stack[stack.length-1].key] = arr;
+      if (content.includes(':')) {
+        const [k, ...v] = content.split(':');
+        const obj = {};
+        arr.push(obj);
+        stack.push({ obj, indent, key: k.trim() });
+        obj[k.trim()] = v.join(':').trim() || null;
+      } else {
+        arr.push(content.trim());
+      }
+    } else if (content.includes(':')) {
+      const [k, ...v] = content.split(':');
+      const key = k.trim();
+      const val = v.join(':').trim();
+      const current = stack[stack.length-1].obj;
+      if (!val) {
+        const obj = {};
+        current[key] = obj;
+        stack.push({ obj, indent, key });
+      } else {
+        current[key] = parseVal(val);
+      }
+    }
+  }
+  return result;
+}
+
+function parseVal(v) {
+  if (v === 'null' || v === '~') return null;
+  if (v === 'true') return true;
+  if (v === 'false') return false;
+  if (/^\d+\.?\d*$/.test(v) && v !== '') return Number(v);
+  return v.replace(/^["']|["']$/g, '');
+}
+
+function convertYaml() {
+  error.value = ''; output.value = '';
+  try {
+    if (yamlMode.value === 'json2yaml') {
+      const obj = JSON.parse(input.value);
+      output.value = jsonToYaml(obj);
+    } else {
+      const obj = yamlToJson(input.value);
+      output.value = JSON.stringify(obj, null, 2);
+    }
+  } catch(e) { error.value = e.message; }
+}
+
+// --- TypeScript ---
+function jsonToTs(obj, name = 'Root') {
+  if (Array.isArray(obj)) {
+    if (obj.length === 0) return `type ${name} = unknown[];`;
+    return jsonToTs(obj[0], name) + `\n\ntype ${name}Array = ${name}[];`;
+  }
+  if (typeof obj !== 'object' || obj === null) return `type ${name} = ${typeof obj};`;
+  
+  const lines = [`interface ${name} {`];
+  for (const [key, val] of Object.entries(obj)) {
+    if (val === null) { lines.push(`  ${key}: null;`); }
+    else if (Array.isArray(val)) {
+      if (val.length === 0) { lines.push(`  ${key}: unknown[];`); }
+      else if (typeof val[0] === 'object' && val[0] !== null) {
+        const subName = key.charAt(0).toUpperCase() + key.slice(1);
+        lines.push(`  ${key}: ${subName}[];`);
+        lines.unshift('');
+        lines.unshift(jsonToTs(val[0], subName));
+      } else {
+        lines.push(`  ${key}: ${typeof val[0]}[];`);
+      }
+    } else if (typeof val === 'object') {
+      const subName = key.charAt(0).toUpperCase() + key.slice(1);
+      lines.push(`  ${key}: ${subName};`);
+      lines.unshift('');
+      lines.unshift(jsonToTs(val, subName));
+    } else {
+      lines.push(`  ${key}: ${typeof val};`);
+    }
+  }
+  lines.push('}');
+  return lines.join('\n');
+}
+
+function convertTs() {
+  error.value = ''; output.value = '';
+  try {
+    const obj = JSON.parse(input.value);
+    output.value = jsonToTs(obj);
+  } catch(e) { error.value = e.message; }
 }
 
 // --- Shared actions ---

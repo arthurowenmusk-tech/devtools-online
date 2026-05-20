@@ -2,54 +2,24 @@
 import Layout from '../layouts/Layout.astro';
 
 const tools = [
-  {
-    icon: '🛠️',
-    name: 'JSON Tools',
-    href: '/json-tools',
-    desc: 'Format, validate, minify, and convert JSON ↔ CSV. All JSON utilities in one place.',
-    tag: 'Data',
-  },
-  {
-    icon: '🔍',
-    name: 'Diff Checker',
-    href: '/diff-checker',
-    desc: 'Compare two texts side by side. Highlight differences line by line.',
-    tag: 'Compare',
-  },
-  {
-    icon: '🔜',
-    name: 'Base64 Encoder/Decoder',
-    href: '#',
-    desc: 'Encode text to Base64 or decode Base64 to readable text. Coming soon.',
-    tag: 'Encode',
-  },
-  {
-    icon: '🔜',
-    name: 'URL Encoder/Decoder',
-    href: '#',
-    desc: 'Encode URLs for safe sharing or decode them back. Coming soon.',
-    tag: 'Encode',
-  },
-  {
-    icon: '🔜',
-    name: 'UUID Generator',
-    href: '#',
-    desc: 'Generate random UUIDs (v1, v4). Bulk generation supported. Coming soon.',
-    tag: 'Generate',
-  },
-  {
-    icon: '🔜',
-    name: 'Regex Tester',
-    href: '#',
-    desc: 'Test regular expressions in real-time with highlighting and match groups. Coming soon.',
-    tag: 'Debug',
-  },
+  { icon: '🛠️', name: 'JSON Tools', href: '/json-tools', desc: 'Format, validate, minify. JSON↔CSV, YAML, TypeScript.', tag: 'Data' },
+  { icon: '🔍', name: 'Diff Checker', href: '/diff-checker', desc: 'Compare two texts side by side. Line-by-line diff.', tag: 'Compare' },
+  { icon: '🔐', name: 'Base64 & URL Encode', href: '/base64', desc: 'Encode/decode Base64 and URL strings.', tag: 'Encode' },
+  { icon: '🔒', name: 'Hash Generator', href: '/hash-generator', desc: 'MD5, SHA-1, SHA-256, SHA-384, SHA-512.', tag: 'Crypto' },
+  { icon: '🎲', name: 'UUID Generator', href: '/uuid-generator', desc: 'Generate UUID v4. Bulk generation supported.', tag: 'Generate' },
+  { icon: '⏱️', name: 'Timestamp Converter', href: '/timestamp', desc: 'Unix timestamp ↔ human-readable date.', tag: 'Convert' },
+  { icon: '🔐', name: 'JWT Decoder', href: '/jwt-decoder', desc: 'Decode and inspect JWT tokens. Check expiration.', tag: 'Debug' },
+  { icon: '🎨', name: 'Color Converter', href: '/color-converter', desc: 'HEX ↔ RGB ↔ HSL. Live color picker.', tag: 'Convert' },
+  { icon: '🔍', name: 'Regex Tester', href: '/regex-tester', desc: 'Test regular expressions with flags in real-time.', tag: 'Debug' },
+  { icon: '⏰', name: 'Cron Parser', href: '/cron-parser', desc: 'Parse cron expressions. See next scheduled runs.', tag: 'DevOps' },
+  { icon: '📝', name: 'Lorem Ipsum', href: '/lorem-ipsum', desc: 'Generate placeholder text for designs.', tag: 'Text' },
+  { icon: '🔄', name: 'cURL to Code', href: '/curl-to-code', desc: 'Convert cURL commands to Python, JS, Go.', tag: 'Convert' },
 ];
 ---
 
 <Layout
   title="Free Online Developer Tools"
-  description="Free online developer tools — JSON converter, diff checker, Base64 encoder, and more. No sign-up, no ads clutter. Just tools that work."
+  description="Free online developer tools — JSON, Base64, Hash, UUID, JWT, Diff Checker, and more. 100% client-side, no sign-up."
 >
   <div class="hero">
     <h1>🛠️ Free Online Developer Tools</h1>
@@ -61,19 +31,15 @@ const tools = [
 
   <div class="callout">
     <strong>🔒 Privacy First</strong> — All processing happens locally in your browser.
-    Your data is never uploaded to any server. <em>Check the Network tab if you don't believe us.</em>
+    Your data is never uploaded to any server.
   </div>
 
-  <h2>🧰 Tools</h2>
+  <h2>🧰 Tools ({tools.length})</h2>
   <div class="tool-grid">
     {tools.map(tool => (
       <div class="tool-card">
         <div class="icon">{tool.icon}</div>
-        {tool.href !== '#' ? (
-          <h3><a href={tool.href}>{tool.name}</a></h3>
-        ) : (
-          <h3>{tool.name}</h3>
-        )}
+        <h3><a href={tool.href}>{tool.name}</a></h3>
         <p>{tool.desc}</p>
         <span class="tag">{tool.tag}</span>
       </div>
@@ -85,12 +51,7 @@ const tools = [
   <h2>🚀 Why DevTools Online?</h2>
   <ul>
     <li>✅ <strong>100% Client-Side</strong> — Everything runs in your browser. No server, no uploads.</li>
-    <li>✅ <strong>No Sign-Up</strong> — Just open the tool and use it. No accounts, no emails.</li>
-    <li>✅ <strong>Ad-Light</strong> — We keep it clean. No pop-ups, no trackers, no auto-play videos.</li>
+    <li>✅ <strong>No Sign-Up</strong> — Just open a tool and use it.</li>
     <li>✅ <strong>Fast & Lightweight</strong> — No bloated frameworks. Pages load in under 1 second.</li>
   </ul>
-
-  <h2>📝 Latest from the Blog</h2>
-  <p><em>Blog coming soon — tutorials, comparisons, and behind-the-scenes of building DevTools.</em></p>
-
 </Layout>

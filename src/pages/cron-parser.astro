@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CronParser from '../components/CronParser.vue';
+---
+<Layout title="Cron Parser — Parse Cron Expressions" description="Parse and explain cron expressions. See next scheduled runs. Presets for common schedules." wide>
+<h1>⏰ Cron Parser</h1>
+<p>Parse cron expressions and see exactly when they run. Quick presets for common schedules.</p>
+<CronParser client:load />
+</Layout>

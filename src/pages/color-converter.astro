@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ColorConverter from '../components/ColorConverter.vue';
+---
+<Layout title="Color Converter — HEX, RGB, HSL" description="Convert colors between HEX, RGB, and HSL formats. Live preview with color picker." wide>
+<h1>🎨 Color Converter</h1>
+<p>Convert between HEX, RGB, and HSL color formats. Pick a color or type any format.</p>
+<ColorConverter client:load />
+</Layout>

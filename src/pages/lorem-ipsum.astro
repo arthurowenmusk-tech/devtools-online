@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LoremIpsum from '../components/LoremIpsum.vue';
+---
+<Layout title="Lorem Ipsum Generator" description="Generate Lorem Ipsum placeholder text. Customizable paragraphs and sentences." wide>
+<h1>📝 Lorem Ipsum Generator</h1>
+<p>Generate placeholder text for your designs and mockups.</p>
+<LoremIpsum client:load />
+</Layout>

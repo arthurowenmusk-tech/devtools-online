@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RegexTester from '../components/RegexTester.vue';
+---
+<Layout title="Regex Tester — Test Regular Expressions Online" description="Test regular expressions in real-time. Pattern highlighting with g, i, m, s, u flags." wide>
+<h1>🔍 Regex Tester</h1>
+<p>Write and test regular expressions in real time. Supports all JavaScript regex flags.</p>
+<RegexTester client:load />
+</Layout>

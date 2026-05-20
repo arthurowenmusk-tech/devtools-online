@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TimestampConverter from '../components/TimestampConverter.vue';
+---
+<Layout title="Timestamp Converter — Unix Time to Date" description="Convert Unix timestamps to human-readable dates and vice versa. 100% client-side." wide>
+<h1>⏱️ Timestamp Converter</h1>
+<p>Convert between Unix timestamps and human-readable dates.</p>
+<TimestampConverter client:load />
+</Layout>
