@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import vue from '@astrojs/vue';
 
 export default defineConfig({
-  site: 'https://xianghome.site', // Dev/test domain, replace for production
+  site: 'https://tool.xianghome.site',
   integrations: [vue()],
   markdown: {
     shikiConfig: {
