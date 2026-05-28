@@ -2,43 +2,41 @@
 import Layout from '../layouts/Layout.astro';
 
 const tools = [
-  { icon: '✦', name: 'JSON Tools', href: '/json-tools', desc: 'Format, validate, minify. JSON↔CSV, YAML, TypeScript conversion.', tag: 'Data' },
-  { icon: '◇', name: 'Diff Checker', href: '/diff-checker', desc: 'Compare two texts side by side with pixel-perfect line-by-line diff.', tag: 'Compare' },
-  { icon: '◈', name: 'Base64 & URL Encode', href: '/base64', desc: 'Encode and decode Base64 and URL-encoded strings instantly.', tag: 'Encode' },
-  { icon: '◆', name: 'Hash Generator', href: '/hash-generator', desc: 'MD5, SHA-1, SHA-256, SHA-384, SHA-512 hashing.', tag: 'Crypto' },
-  { icon: '◊', name: 'UUID Generator', href: '/uuid-generator', desc: 'Generate UUID v4 identifiers. Bulk generation supported.', tag: 'Generate' },
-  { icon: '⧖', name: 'Timestamp Converter', href: '/timestamp', desc: 'Unix timestamp ↔ human-readable date conversion.', tag: 'Convert' },
-  { icon: '⬡', name: 'JWT Decoder', href: '/jwt-decoder', desc: 'Decode and inspect JWT tokens. Check claims and expiration.', tag: 'Debug' },
-  { icon: '◉', name: 'Color Converter', href: '/color-converter', desc: 'HEX ↔ RGB ↔ HSL. Live color picker with real-time preview.', tag: 'Convert' },
-  { icon: '⟐', name: 'Regex Tester', href: '/regex-tester', desc: 'Test regular expressions with flags in real-time. Instant feedback.', tag: 'Debug' },
-  { icon: '⏣', name: 'Cron Parser', href: '/cron-parser', desc: 'Parse cron expressions. See next scheduled execution times.', tag: 'DevOps' },
-  { icon: '≡', name: 'Lorem Ipsum', href: '/lorem-ipsum', desc: 'Generate professional placeholder text for design mockups.', tag: 'Text' },
-  { icon: '⚡', name: 'cURL to Code', href: '/curl-to-code', desc: 'Convert cURL commands to Python, JavaScript, Go, and more.', tag: 'Convert' },
+  { icon: '🔧', name: 'JSON Tools', href: '/json-tools', desc: 'Format, validate, minify JSON. Convert between JSON, CSV, YAML, and TypeScript.', tag: 'Data' },
+  { icon: '🔍', name: 'Diff Checker', href: '/diff-checker', desc: 'Compare two texts side by side with line-by-line diff highlighting.', tag: 'Compare' },
+  { icon: '🔐', name: 'Base64 & URL Encode', href: '/base64', desc: 'Encode and decode Base64 and URL-encoded strings.', tag: 'Encode' },
+  { icon: '#️⃣', name: 'Hash Generator', href: '/hash-generator', desc: 'Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512 hashes.', tag: 'Crypto' },
+  { icon: '🎲', name: 'UUID Generator', href: '/uuid-generator', desc: 'Generate UUID v4 identifiers. Bulk generation supported.', tag: 'Generate' },
+  { icon: '🕐', name: 'Timestamp Converter', href: '/timestamp', desc: 'Convert between Unix timestamps and human-readable dates.', tag: 'Convert' },
+  { icon: '🔓', name: 'JWT Decoder', href: '/jwt-decoder', desc: 'Decode and inspect JWT tokens. Check claims and expiration.', tag: 'Debug' },
+  { icon: '🎨', name: 'Color Converter', href: '/color-converter', desc: 'Convert between HEX, RGB, and HSL. Live color picker.', tag: 'Convert' },
+  { icon: '🔎', name: 'Regex Tester', href: '/regex-tester', desc: 'Test regular expressions with real-time matching and capture groups.', tag: 'Debug' },
+  { icon: '⏰', name: 'Cron Parser', href: '/cron-parser', desc: 'Parse cron expressions. See next scheduled run times.', tag: 'DevOps' },
+  { icon: '📄', name: 'Lorem Ipsum', href: '/lorem-ipsum', desc: 'Generate placeholder text for designs and mockups.', tag: 'Text' },
+  { icon: '🔄', name: 'cURL to Code', href: '/curl-to-code', desc: 'Convert cURL commands to Python, JavaScript, Go, and more.', tag: 'Convert' },
 ];
 ---
 
 <Layout
   title="Free Online Developer Tools"
-  description="Free online developer tools — JSON, Base64, Hash, UUID, JWT, Diff Checker, and more. 100% client-side, no sign-up required. Built for developers who value privacy and speed."
+  description="Free online developer tools — JSON, Base64, Hash, UUID, JWT, Diff Checker, and more. 100% client-side, no sign-up required."
 >
   <div class="hero">
-    <h1>Developer&nbsp;Tools,<br />Redefined</h1>
+    <h1>Free Online Developer Tools</h1>
     <p>
-      Thirteen precision instruments for the modern developer.
-      Every tool runs entirely in your browser — zero data collection,
-      zero latency, maximum privacy.
+      Thirteen practical tools that run entirely in your browser.
+      No sign-up, no data collection, no nonsense.
     </p>
-    <div class="hero-accent"></div>
   </div>
 
   <div class="callout">
-    <strong>Privacy by Design</strong> &mdash; All computation happens locally. Your data stays on your machine. Always.
+    <strong>Privacy First</strong> — All computation happens locally. Your data never leaves your device.
   </div>
 
   <h2>Tools</h2>
   <div class="tool-grid">
     {tools.map(tool => (
-      <a href={tool.href} class="tool-card" style="text-decoration:none">
+      <a href={tool.href} class="tool-card">
         <div class="icon">{tool.icon}</div>
         <h3>{tool.name}</h3>
         <p>{tool.desc}</p>
@@ -51,9 +49,8 @@ const tools = [
 
   <h2>Why DevTools Online</h2>
   <ul>
-    <li><strong>100% Client-Side</strong> &mdash; Every computation happens in your browser. No server, no uploads, no logs. Your data is yours.</li>
-    <li><strong>Zero Sign-Up</strong> &mdash; Open a tool and start working. No accounts, no emails, no friction.</li>
-    <li><strong>Blazing Fast</strong> &mdash; Lean architecture, no bloated frameworks. Most pages load in under 500 milliseconds.</li>
-    <li><strong>Open Source</strong> &mdash; Transparent, auditable, and built with care. Check the code on GitHub.</li>
+    <li><strong>100% Client-Side</strong> — Everything runs in your browser. No server, no uploads, no logs.</li>
+    <li><strong>No Sign-Up</strong> — Open a tool and start working. No accounts, no emails, no friction.</li>
+    <li><strong>Fast & Lightweight</strong> — Lean architecture. Most pages load in under 500ms.</li>
   </ul>
 </Layout>
